@@ -6,7 +6,7 @@ import path from "path";
 import authRoutes from "./routes/authRoutes";
 
 const app = express();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 18012;
 
 const allowedOrigins = ["https://zenly-admin.onrender.com", "http://localhost:3000"];
 
