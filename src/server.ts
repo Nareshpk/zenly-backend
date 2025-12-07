@@ -6,9 +6,9 @@ import path from "path";
 import authRoutes from "./routes/authRoutes";
 
 const app = express();
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT;
 
-const allowedOrigins = ["http://localhost:3000", "http://localhost:4001"];
+const allowedOrigins = ["https://zenly-admin.onrender.com", "http://localhost:3000"];
 
 app.use(((req: express.Request, res: express.Response, next: express.NextFunction) => {
   const origin = req.headers.origin as string;
