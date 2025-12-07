@@ -10,14 +10,13 @@ app.use(express.json());
 
 app.use("/api/auth", authRoutes);
 
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}`)
+})
+
 connectDB().then(() => {
   console.log('Database connected successfully')
 }).catch((err) => {
   console.error('Database connection failed:', err)
 })
-
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
-
 
