@@ -10,24 +10,23 @@ export const signup = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
-    console.log("req.body==========>>",req.body);
     
-  const { firstName,lastName, email,phone, role,password,confirmPassword } = req.body;
+  const { name, phone, email, role, password,agree } = req.body;
   try {
     const userExists = await User.findOne({ email });
     if (userExists) res.status(400).json({ message: "User already exists" });
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const cPassword = await bcrypt.hash(password, 10);
 
-    const newUser = new User({ firstName, lastName, email,phone, role, password: hashedPassword });
+
+    const newUser = new User({ name, email, phone, role, password: hashedPassword, agree });
     await newUser.save();
 
     const token = jwt.sign({ id: newUser._id }, JWT_SECRET, {
       expiresIn: "1d",
     });
 
-    res.status(201).json({ user: { id: newUser._id,firstName, lastName, email,phone, role, password }, token });
+    res.status(201).json({ user: { id: newUser._id, name, email, phone, role, password }, token });
   } catch (err) {
     next({ message: "Server error" });
   }
@@ -41,20 +40,20 @@ export const login = async (
   const { email, password } = req.body;
   try {
     const user: any = await User.findOne({ email });
+   
     if (!user) res.status(400).json({ message: "Invalid credentials" });
 
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) res.status(400).json({ message: "Invalid credentials" });
+    if (!isMatch) res.status(401).json({ message: "Invalid password" });
 
     const token = jwt.sign(
-      { id: user._id, name: user.name, email: user.email },
+      { id: user._id, name: user.name, email: user.email, phone: user.phone, role: user.role },
       JWT_SECRET,
       { expiresIn: "1d" }
     );
-
     res
       .status(200)
-      .json({ user: { id: user._id, name: user.name, email }, token });
+      .json({ user: { id: user._id, name: user.name, email: user.email, phone: user.phone, role: user.role, agree: user.agree }, token });
   } catch (err) {
     next({ message: "Server error" });
   }
