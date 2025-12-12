@@ -4,8 +4,9 @@ import bcrypt from "bcryptjs";
 export interface IUser extends Document {
   name: string;
   email: string;
+  username?: string;
   phone?: string;
-  role: "user" | "doctor" | "staff" | "admin" | string;
+  role: "user" | "doctor" | "admin" | string;
   password: string;
   agree?: boolean;
   createdAt?: Date;
@@ -21,6 +22,7 @@ const UserSchema = new Schema<IUser>(
     role: { type: String, default: "user" },
     password: { type: String, required: true },
     agree: { type: Boolean, default: false },
+    username: { type: String, default: "", trim: true },
   },
   { timestamps: true }
 );
