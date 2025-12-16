@@ -55,6 +55,11 @@ export const initSocket = (server: any) => {
       socket.to(roomId).emit("call-status", status);
     });
 
+    socket.on("join-user", (userId: string) => {
+      socket.join(userId);
+      console.log("User joined personal room:", userId);
+    });
+
     socket.on("send-message", async ({ roomId, message }) => {
       try {
 

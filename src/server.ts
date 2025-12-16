@@ -1,20 +1,21 @@
-import path from "path";
-import express from "express";
 import cors from "cors";
-import http from "http";
 import dotenv from "dotenv";
-import { initSocket } from "./socket";
+import express from "express";
+import http from "http";
+import path from "path";
 import connectDB from "./config/db";
+import appointmentRoutes from "./routes/appointment.routes";
 import authRoutes from "./routes/authRoutes";
-import doctorRoutes from "./routes/doctorRouter";
 import businessHoursRoutes from "./routes/businessHoursRoutes";
-import appointmentRoutes from "./routes/appointment.routes"
+import doctorRoutes from "./routes/doctorRouter";
+import { initSocket } from "./socket";
 
-import notificationRoutes from "./routes/notification.routes";
-import userProfileRoutes from "./routes/userProfile.routes";
-import uploadRoutes from "./routes/uploadRoutes"
+import aiRoutes from "./routes/ai.routes";
 import messageRoutes from "./routes/messageRoutes";
-import aiChatRoute from "./routes/aiChat";
+import notificationRoutes from "./routes/notification.routes";
+import uploadRoutes from "./routes/uploadRoutes";
+import userProfileRoutes from "./routes/userProfile.routes";
+
 dotenv.config();
 
 const app = express()
@@ -36,8 +37,30 @@ app.use("/api/notifications", notificationRoutes);
 app.use("/api/user-profile", userProfileRoutes);
 app.use("/api/upload", uploadRoutes);
 app.use("/api/messages", messageRoutes);
-app.use("/api/ai", aiChatRoute);
+// app.use("/api/ai", aiChatRoute);
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+// app.post("/api/ai/chat", async (req, res) => {
+//   try {
+//     const { message } = req.body;
+
+//     // Call Python + Groq service
+//     const response = await axios.post(
+//       "http://127.0.0.1:5001/ai/chat",
+//       { message }
+//     );
+
+//     res.json({
+//       reply: response.data.reply,
+//     });
+//   } catch (error) {
+//     res.status(500).json({
+//       reply: "AI service not available",
+//     });
+//   }
+// });
+
+app.use("/api/ai", aiRoutes);
 
 const server = http.createServer(app);
 
