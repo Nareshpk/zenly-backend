@@ -16,6 +16,7 @@ import messageRoutes from "./routes/messageRoutes";
 import notificationRoutes from "./routes/notification.routes";
 import uploadRoutes from "./routes/uploadRoutes";
 import userProfileRoutes from "./routes/userProfile.routes";
+import specializationRoutes from "./doctor/specialization/specialization.routes"
 
 dotenv.config();
 
@@ -42,6 +43,7 @@ app.use("/api/user-profile", userProfileRoutes);
 app.use("/api/upload", uploadRoutes);
 app.use("/api/messages", messageRoutes);
 app.use("/api/admin/doctors", doctorAdminRoutes);
+app.use("/api/admin/doctors/specializations", specializationRoutes);
 // app.use("/api/ai", aiChatRoute);
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
