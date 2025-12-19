@@ -8,6 +8,7 @@ import appointmentRoutes from "./routes/appointment.routes";
 import authRoutes from "./routes/authRoutes";
 import businessHoursRoutes from "./routes/businessHoursRoutes";
 import doctorRoutes from "./routes/doctorRouter";
+import doctorAdminRoutes from "./doctor/doctor.router";
 import { initSocket } from "./socket";
 
 import aiRoutes from "./routes/ai.routes";
@@ -28,6 +29,9 @@ app.use(cors({
 
 
 app.use(express.json());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 
 app.use("/api/auth", authRoutes);
 app.use("/api/doctors", doctorRoutes);
@@ -37,6 +41,7 @@ app.use("/api/notifications", notificationRoutes);
 app.use("/api/user-profile", userProfileRoutes);
 app.use("/api/upload", uploadRoutes);
 app.use("/api/messages", messageRoutes);
+app.use("/api/admin/doctors", doctorAdminRoutes);
 // app.use("/api/ai", aiChatRoute);
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
